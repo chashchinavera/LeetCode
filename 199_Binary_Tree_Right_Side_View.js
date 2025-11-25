@@ -18,23 +18,22 @@ var rightSideView = function (root) {
     { node: root.right, level: 1 },
   ];
 
-  let currentHeight = 0;
-
   while (stack.length) {
     const { node, level } = stack.pop();
 
-    if (node === null || node === undefined) continue;
+    if (node === null) continue;
 
     if (result[level] === undefined) {
-      result[level] = node.val;
-
-      currentHeight = level;
+      result[level] = node?.val ? node.val : node;
     }
 
-    stack.push(
-      { node: node?.left, level: level + 1 },
-      { node: node?.right, level: level + 1 }
-    );
+    if (node?.left) {
+      stack.push({ node: node.left, level: level + 1 });
+    }
+
+    if (node?.right) {
+      stack.push({ node: node.right, level: level + 1 });
+    }
   }
 
   return result;
