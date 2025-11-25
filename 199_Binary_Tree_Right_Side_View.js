@@ -1,9 +1,10 @@
 "use strict";
 
 class TreeNode {
-  constructor(val) {
-    this.val = val;
-    this.left = this.right = null;
+  constructor(val, left, right) {
+    this.val = val === undefined ? null : val;
+    this.left = left === undefined ? null : left;
+    this.right = right === undefined ? null : right;
   }
 }
 
@@ -12,28 +13,22 @@ var rightSideView = function (root) {
     return [];
   }
 
-  const result = [root.val];
-  const stack = [
-    { node: root.left, level: 1 },
-    { node: root.right, level: 1 },
-  ];
+  const result = [];
+  const stack = [{ node: root, level: 0 }];
 
   while (stack.length) {
     const { node, level } = stack.pop();
 
-    if (node === null) continue;
+    if (node === null || node?.val === null) continue;
 
     if (result[level] === undefined) {
-      result[level] = node?.val ? node.val : node;
+      result[level] = node.val;
     }
 
-    if (node?.left) {
-      stack.push({ node: node.left, level: level + 1 });
-    }
-
-    if (node?.right) {
-      stack.push({ node: node.right, level: level + 1 });
-    }
+    stack.push(
+      { node: node.left, level: level + 1 },
+      { node: node.right, level: level + 1 }
+    );
   }
 
   return result;
@@ -49,14 +44,14 @@ var deserialize = function (data) {
   return result;
 
   function buildTree(index) {
-    if (index * 2 + 2 > data.length) return data[index];
-    const node = new TreeNode(data[index]);
+    if (index * 2 + 2 > data.length)
+      return new TreeNode(data[index], undefined, undefined);
 
-    node.left = data.length > 2 * index + 1 ? buildTree(2 * index + 1) : null;
-
-    node.right = data.length > 2 * index + 2 ? buildTree(2 * index + 2) : null;
-
-    return node;
+    return new TreeNode(
+      data[index],
+      buildTree(2 * index + 1),
+      buildTree(2 * index + 2)
+    );
   }
 };
 
