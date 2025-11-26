@@ -30,13 +30,17 @@ var wallsAndGates = function (rooms) {
 
     for (let k = 0; k < 4; k++) {
       const [curI, curJ] = neighbours[k];
-      if (curI < 0 || curI >= height || curJ < 0 || curJ >= width) {
+      if (
+        curI < 0 ||
+        curI >= height ||
+        curJ < 0 ||
+        curJ >= width ||
+        rooms[curI][curJ] !== EMPTY
+      ) {
         continue;
       }
-      if (rooms[curI][curJ] === EMPTY) {
-        rooms[curI][curJ] = steps;
-        queue.push({ i: curI, j: curJ, steps: steps + 1 });
-      }
+      rooms[curI][curJ] = steps;
+      queue.push({ i: curI, j: curJ, steps: steps + 1 });
     }
   }
 
