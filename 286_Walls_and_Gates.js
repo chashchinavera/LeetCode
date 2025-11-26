@@ -13,13 +13,13 @@ var wallsAndGates = function (rooms) {
   for (let i = 0; i < height; i++) {
     for (let j = 0; j < width; j++) {
       if (rooms[i][j] === GATE) {
-        queue.push({ value: rooms[i][j], i, j, steps: 1 });
+        queue.push({ i, j, steps: 1 });
       }
     }
   }
 
   while (queue.length) {
-    const { value, i, j, steps } = queue.shift();
+    const { i, j, steps } = queue.shift();
 
     const neighbours = [
       [i + 1, j],
@@ -35,7 +35,7 @@ var wallsAndGates = function (rooms) {
       }
       if (rooms[curI][curJ] === EMPTY) {
         rooms[curI][curJ] = steps;
-        queue.push({ value: value + 1, i: curI, j: curJ, steps: steps + 1 });
+        queue.push({ i: curI, j: curJ, steps: steps + 1 });
       }
     }
   }
