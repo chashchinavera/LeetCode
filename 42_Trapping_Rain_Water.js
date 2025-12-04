@@ -12,14 +12,12 @@ var trap = function (height) {
   while (left < right) {
     if (maxLeft <= maxRight) {
       left += 1;
-      const current = Math.min(maxLeft, maxRight) - height[left];
-      result += current > 0 ? current : 0;
       maxLeft = Math.max(maxLeft, height[left]);
+      result += maxLeft - height[left];
     } else {
       right -= 1;
-      const current = Math.min(maxLeft, maxRight) - height[right];
-      result += current > 0 ? current : 0;
       maxRight = Math.max(maxRight, height[right]);
+      result += maxRight - height[right];
     }
   }
 
